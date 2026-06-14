@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ethan Chaudat — Portfolio Cybersécurité</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --accent: #00d4ff;
+    --accent2: #7c3aed;
+    --dark: #0a0e1a;
+    --card-bg: rgba(255,255,255,0.04);
+    --card-border: rgba(0,212,255,0.15);
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --green: #10b981;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* GRID BG */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,14,26,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--card-border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    height: 56px;
+  }
+  nav .brand {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--accent);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: 'Courier New', monospace;
+    text-decoration: none;
+  }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.2s;
+  }
+  nav a:hover { color: var(--accent); }
+  nav .spacer { flex: 1; }
+  .badge-status {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: rgba(16,185,129,0.12);
+    border: 1px solid rgba(16,185,129,0.35);
+    color: var(--green);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    z-index: 1;
+    padding: 5rem 2rem 4rem;
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+  }
+  .avatar {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: rgba(0,212,255,0.06);
+    border: 2px solid var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--accent);
+    flex-shrink: 0;
+    font-family: 'Courier New', monospace;
+    box-shadow: 0 0 32px rgba(0,212,255,0.12);
+  }
+  .hero-text h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.5px;
+  }
+  .hero-text h1 span { color: var(--accent); }
+  .hero-pills {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+  .pill {
+    background: rgba(124,58,237,0.15);
+    border: 1px solid rgba(124,58,237,0.35);
+    color: #a78bfa;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+  }
+  .hero-desc {
+    color: var(--muted);
+    font-size: 14px;
+    max-width: 580px;
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+  }
+  .hero-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn {
+    padding: 9px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--card-border);
+    background: var(--card-bg);
+    color: var(--text);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-primary {
+    background: rgba(0,212,255,0.08);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .btn-primary:hover { background: rgba(0,212,255,0.18); }
+
+  /* TERMINAL */
+  .terminal-wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto 1rem;
+    padding: 0 2rem;
+  }
+  .terminal-line {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: var(--green);
+    background: rgba(16,185,129,0.04);
+    border: 1px solid rgba(16,185,129,0.15);
+    border-radius: 8px;
+    padding: 0.8rem 1.2rem;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .terminal-line .prompt { color: var(--accent); }
+  .cursor {
+    display: inline-block;
+    width: 8px; height: 14px;
+    background: var(--green);
+    animation: blink 1.1s step-end infinite;
+    vertical-align: middle;
+    margin-left: 2px;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  /* SECTIONS */
+  section {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 3rem 2rem 1rem;
+  }
+  .section-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent);
+    font-family: 'Courier New', monospace;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--card-border);
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .card:hover { border-color: rgba(0,212,255,0.35); transform: translateY(-1px); }
+  .card h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    font-size: 11px;
+    background: rgba(124,58,237,0.15);
+    border: 1px solid rgba(124,58,237,0.3);
+    color: #a78bfa;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 400;
+  }
+  .card p { color: var(--muted); font-size: 13.5px; margin-top: 0.5rem; line-height: 1.7; }
+  .card .meta {
+    font-size: 12px;
+    color: var(--accent);
+    font-family: 'Courier New', monospace;
+    margin-top: 0.9rem;
+    opacity: 0.8;
+  }
+
+  /* PROJECTS */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+  .project-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 1.4rem;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+  .project-card:hover { border-color: rgba(0,212,255,0.4); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,212,255,0.06); }
+  .project-card:hover::before { opacity: 1; }
+  .project-num {
+    font-size: 10px;
+    font-family: 'Courier New', monospace;
+    color: var(--accent);
+    margin-bottom: 0.6rem;
+    opacity: 0.7;
+    letter-spacing: 0.5px;
+  }
+  .project-card h3 { font-size: 15px; color: #fff; font-weight: 600; margin-bottom: 0.4rem; }
+  .project-domain {
+    font-size: 11px;
+    color: #a78bfa;
+    font-family: 'Courier New', monospace;
+    margin-bottom: 0.9rem;
+    opacity: 0.85;
+  }
+  .project-card p { font-size: 13px; color: var(--muted); line-height: 1.65; }
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 1rem;
+  }
+  .project-tags span {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-family: 'Courier New', monospace;
+    background: rgba(0,212,255,0.07);
+    border: 1px solid rgba(0,212,255,0.2);
+    color: var(--accent);
+  }
+
+  /* SKILLS */
+  .skills-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 0.75rem; }
+  .skill-tag {
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    border: 1px solid;
+    font-family: 'Courier New', monospace;
+    transition: transform 0.15s;
+  }
+  .skill-tag:hover { transform: scale(1.05); }
+  .skill-tag.net { background: rgba(0,212,255,0.07); border-color: rgba(0,212,255,0.3); color: var(--accent); }
+  .skill-tag.sec { background: rgba(239,68,68,0.07); border-color: rgba(239,68,68,0.3); color: #f87171; }
+  .skill-tag.dev { background: rgba(124,58,237,0.07); border-color: rgba(124,58,237,0.3); color: #a78bfa; }
+  .skill-tag.tools { background: rgba(16,185,129,0.07); border-color: rgba(16,185,129,0.3); color: var(--green); }
+  .skills-legend { font-size: 11px; color: var(--muted); font-family: 'Courier New', monospace; margin-top: 0.5rem; }
+
+  /* CONTACT */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .contact-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 1.2rem;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .contact-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .contact-icon { font-size: 24px; }
+  .contact-card h4 { font-size: 13px; font-weight: 600; color: #fff; }
+  .contact-card p { font-size: 12px; color: var(--muted); }
+
+  /* AI CHAT */
+  .ai-section {
+    background: rgba(124,58,237,0.04);
+    border: 1px solid rgba(124,58,237,0.2);
+    border-radius: 14px;
+    padding: 1.5rem;
+  }
+  .ai-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1rem;
+  }
+  .ai-badge {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    background: rgba(124,58,237,0.25);
+    border: 1px solid rgba(124,58,237,0.4);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+  .ai-header h3 { font-size: 13px; color: #a78bfa; font-family: 'Courier New', monospace; }
+  .ai-input-row { display: flex; gap: 8px; }
+  .ai-input-row input {
+    flex: 1;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(124,58,237,0.3);
+    border-radius: 8px;
+    color: var(--text);
+    padding: 9px 14px;
+    font-size: 13px;
+    outline: none;
+    font-family: inherit;
+    transition: border-color 0.2s;
+  }
+  .ai-input-row input:focus { border-color: var(--accent); }
+  .ai-input-row button {
+    background: rgba(124,58,237,0.18);
+    border: 1px solid rgba(124,58,237,0.4);
+    color: #a78bfa;
+    border-radius: 8px;
+    padding: 9px 16px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    font-family: inherit;
+  }
+  .ai-input-row button:hover { background: rgba(124,58,237,0.32); color: #c4b5fd; }
+  .ai-input-row button:disabled { opacity: 0.5; cursor: not-allowed; }
+  #ai-response {
+    margin-top: 1.1rem;
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.75;
+    padding: 0;
+    border-radius: 8px;
+  }
+  #ai-response.loading {
+    color: var(--accent);
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    padding: 0.6rem 0;
+    border: none;
+    background: none;
+  }
+  #ai-response.has-content {
+    border-top: 1px solid rgba(124,58,237,0.15);
+    padding-top: 1rem;
+  }
+  .suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 0.75rem;
+  }
+  .suggestion-btn {
+    font-size: 11px;
+    padding: 4px 10px;
+    background: rgba(0,212,255,0.06);
+    border: 1px solid rgba(0,212,255,0.2);
+    color: var(--accent);
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+  .suggestion-btn:hover { background: rgba(0,212,255,0.14); }
+
+  /* FOOTER */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--card-border);
+    padding: 2rem;
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'Courier New', monospace;
+    margin-top: 2rem;
+  }
+  footer span { color: var(--accent); }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    nav { padding: 0 1rem; gap: 1rem; }
+    nav a:not(.brand) { display: none; }
+    .hero { padding: 3rem 1rem 2rem; gap: 1.5rem; }
+    .hero-text h1 { font-size: 1.6rem; }
+    section { padding: 2rem 1rem 0.5rem; }
+    .terminal-wrap { padding: 0 1rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <a class="brand" href="#hero">EC://</a>
+  <a href="#projets">Projets</a>
+  <a href="#experiences">Expériences</a>
+  <a href="#competences">Compétences</a>
+  <a href="#contact">Contact</a>
+  <span class="spacer"></span>
+  <span class="badge-status"><span class="dot"></span> Disponible</span>
+</nav>
+
+<!-- HERO -->
+<div id="hero" class="hero">
+  <div class="avatar">EC</div>
+  <div class="hero-text">
+    <h1>Ethan <span>Chaudat</span></h1>
+    <div class="hero-pills">
+      <span class="pill">🔐 Cybersécurité</span>
+      <span class="pill">🌐 Réseau &amp; ISR</span>
+      <span class="pill">💻 Dev Web Sécurisé</span>
+    </div>
+    <p class="hero-desc">
+      Étudiant en cybersécurité passionné par la sécurité des systèmes d'information et des réseaux. Je conçois des infrastructures robustes, déploie des solutions de supervision SIEM et développe des applications web défensives adaptées aux menaces actuelles.
+    </p>
+    <div class="hero-buttons">
+      <a class="btn btn-primary" href="#">⬇ Télécharger le CV</a>
+      <a class="btn" href="#contact">✉ Me contacter</a>
+      <a class="btn" href="https://github.com/RaphaelRoumezin/projet-ue2-2-grp4a" target="_blank" rel="noopener">🔗 GitHub V1</a>
+    </div>
+  </div>
+</div>
+
+<!-- TERMINAL -->
+<div class="terminal-wrap">
+  <div class="terminal-line">
+    <span class="prompt">ethan@portfolio:~$</span>
+    <span>whoami — étudiant ISR · sécurisation réseau · SIEM · dev web sécurisé · disponible pour stage / alternance</span>
+    <span class="cursor"></span>
+  </div>
+</div>
+
+<!-- PROJETS -->
+<section id="projets">
+  <div class="section-title">// Mes projets</div>
+  <div class="projects-grid">
+
+    <div class="project-card">
+      <div class="project-num">MODULE 01 — Introduction à la cybersécurité ISR</div>
+      <h3>Architecture réseau sécurisée</h3>
+      <div class="project-domain">Active Directory · DNS · DHCP · Firewall · Segmentation</div>
+      <p>Conception et déploiement d'une infrastructure réseau d'entreprise segmentée en zones. Configuration de l'Active Directory, des services DNS et DHCP, mise en place de règles inter-zones et d'un firewall pour cloisonner les serveurs, postes clients et DMZ.</p>
+      <div class="project-tags">
+        <span>Active Directory</span>
+        <span>VLAN</span>
+        <span>Firewall</span>
+        <span>DNS</span>
+        <span>DHCP</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-num">MODULE 02 — Techniques d'administration ISR</div>
+      <h3>Supervision &amp; hardening réseau</h3>
+      <div class="project-domain">Wazuh SIEM · Proxy SSL · Pentest · Filtrage applicatif</div>
+      <p>Audit et analyse d'un réseau pour identifier ses failles. Déploiement du SIEM Wazuh pour centraliser les logs et déclencher des alertes, installation d'un proxy SSL, filtrage du trafic utilisateur et détection active des intrusions et vulnérabilités.</p>
+      <div class="project-tags">
+        <span>Wazuh</span>
+        <span>Proxy SSL</span>
+        <span>Pentest</span>
+        <span>SIEM</span>
+        <span>IDS</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-num">MODULE 03 — Programmation &amp; DevSecOps</div>
+      <h3>Cyberfolio — Portfolio full stack sécurisé</h3>
+      <div class="project-domain">PHP · MySQL · JS · API HIBP · Bcrypt · 2FA Discord</div>
+      <p>Développement d'un portfolio multi-utilisateurs avec dashboard d'administration, authentification renforcée 2FA via Discord, hachage des mots de passe avec Bcrypt, validation stricte des entrées, protection contre l'injection SQL et intégration de l'API Have I Been Pwned.</p>
+      <div class="project-tags">
+        <span>PHP</span>
+        <span>MySQL</span>
+        <span>Bcrypt</span>
+        <span>2FA</span>
+        <span>HIBP API</span>
+        <span>Bootstrap</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EXPÉRIENCES -->
+<section id="experiences">
+  <div class="section-title">// Expériences &amp; formations</div>
+
+  <div class="card">
+    <h3>🎓 Formation en cybersécurité — spécialité ISR <span class="tag">En cours</span></h3>
+    <p>Cursus orienté sécurité des systèmes d'information et des réseaux. Acquisition de compétences théoriques et pratiques en administration réseau, sécurisation d'infrastructures, supervision des menaces, développement web sécurisé et gestion de projet en mode agile.</p>
+    <div class="meta">→ 2024 — 2025 · Projet académique encadré</div>
+  </div>
+
+  <div class="card">
+    <h3>🤝 Projet collaboratif — NosPortfolios <span class="tag">Groupe de 3</span></h3>
+    <p>Conception et développement d'une plateforme web multi-portfolios en équipe avec Raphaël Roumezin et Simon Duchanaud. Travail en mode agile, répartition des tâches front/back/sécurité, intégration de fonctionnalités avancées (2FA, SIEM, API tierces), soutenance technique devant jury.</p>
+    <div class="meta">→ PHP · MariaDB · Apache · Bootstrap · JavaScript · 2025</div>
+  </div>
+
+  <div class="card">
+    <h3>🔍 Analyse de vulnérabilités réseau <span class="tag">Pratique</span></h3>
+    <p>Réalisation d'audits réseau pour identifier des failles de configuration et des surfaces d'attaque. Mise en place de contre-mesures (durcissement des politiques AD, filtrage renforcé, segmentation), rédaction de rapports techniques et préconisations de remédiation.</p>
+    <div class="meta">→ Nmap · Wireshark · Wazuh · Reporting technique</div>
+  </div>
+</section>
+
+<!-- COMPÉTENCES -->
+<section id="competences">
+  <div class="section-title">// Compétences techniques</div>
+
+  <div style="margin-bottom:1.5rem;">
+    <div style="font-size:11px;color:var(--accent);font-family:'Courier New',monospace;margin-bottom:0.6rem;">Réseau &amp; Infrastructure</div>
+    <div class="skills-grid">
+      <span class="skill-tag net">TCP/IP</span>
+      <span class="skill-tag net">VLAN</span>
+      <span class="skill-tag net">Firewall</span>
+      <span class="skill-tag net">DNS / DHCP</span>
+      <span class="skill-tag net">Active Directory</span>
+      <span class="skill-tag net">Segmentation réseau</span>
+      <span class="skill-tag net">Routage statique</span>
+    </div>
+  </div>
+
+  <div style="margin-bottom:1.5rem;">
+    <div style="font-size:11px;color:#f87171;font-family:'Courier New',monospace;margin-bottom:0.6rem;">Sécurité offensive &amp; défensive</div>
+    <div class="skills-grid">
+      <span class="skill-tag sec">Wazuh SIEM</span>
+      <span class="skill-tag sec">Proxy SSL</span>
+      <span class="skill-tag sec">Pentest</span>
+      <span class="skill-tag sec">Hachage Bcrypt</span>
+      <span class="skill-tag sec">API Have I Been Pwned</span>
+      <span class="skill-tag sec">2FA Discord</span>
+      <span class="skill-tag sec">Analyse de vulnérabilités</span>
+      <span class="skill-tag sec">Nmap / Wireshark</span>
+    </div>
+  </div>
+
+  <div style="margin-bottom:1.5rem;">
+    <div style="font-size:11px;color:#a78bfa;font-family:'Courier New',monospace;margin-bottom:0.6rem;">Développement web</div>
+    <div class="skills-grid">
+      <span class="skill-tag dev">PHP</span>
+      <span class="skill-tag dev">MySQL</span>
+      <span class="skill-tag dev">HTML5 / CSS3</span>
+      <span class="skill-tag dev">JavaScript</span>
+      <span class="skill-tag dev">Bootstrap</span>
+      <span class="skill-tag dev">Python</span>
+      <span class="skill-tag dev">C</span>
+    </div>
+  </div>
+
+  <div>
+    <div style="font-size:11px;color:var(--green);font-family:'Courier New',monospace;margin-bottom:0.6rem;">Outils &amp; environnements</div>
+    <div class="skills-grid">
+      <span class="skill-tag tools">Apache</span>
+      <span class="skill-tag tools">Git / GitHub</span>
+      <span class="skill-tag tools">Linux (Debian/Ubuntu)</span>
+      <span class="skill-tag tools">Windows Server</span>
+      <span class="skill-tag tools">VMware / VirtualBox</span>
+    </div>
+  </div>
+</section>
+
+<!-- AI SECTION -->
+<section>
+  <div class="section-title">// Posez vos questions :</div>
+  <div class="ai-section">
+    <div class="ai-header">
+      <div class="ai-badge">🤖</div>
+      <h3>Pose une question sur le profil d'Ethan — réponse générée par l'IA (Claude)</h3>
+    </div>
+    <div class="ai-input-row">
+      <input id="ai-input" type="text" placeholder="Ex : Quelles sont ses compétences en sécurité réseau ?" aria-label="Question pour l'IA" />
+      <button id="ai-btn" onclick="askAI()">Envoyer ↗</button>
+    </div>
+    <div class="suggestions">
+      <button class="suggestion-btn" onclick="fillAndAsk('Quels sont ses points forts en cybersécurité ?')">Points forts cyber</button>
+      <button class="suggestion-btn" onclick="fillAndAsk('Maîtrise-t-il le pentest ?')">Pentest</button>
+      <button class="suggestion-btn" onclick="fillAndAsk('Qu\'a-t-il développé comme projets web ?')">Projets web</button>
+      <button class="suggestion-btn" onclick="fillAndAsk('Peut-il administrer un réseau d\'entreprise ?')">Admin réseau</button>
+    </div>
+    <div id="ai-response" role="status" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-title">// Contact</div>
+  <div class="contact-grid">
+    <a class="contact-card" href="mailto:ethan.chaudat@email.com">
+      <div class="contact-icon">✉</div>
+      <h4>Email</h4>
+      <p>ethan.chaudat@email.com</p>
+    </a>
+    <a class="contact-card" href="https://github.com/RaphaelRoumezin/projet-ue2-2-grp4a" target="_blank" rel="noopener">
+      <div class="contact-icon">🐙</div>
+      <h4>GitHub</h4>
+      <p>Voir le projet V1</p>
+    </a>
+    <a class="contact-card" href="#">
+      <div class="contact-icon">💼</div>
+      <h4>LinkedIn</h4>
+      <p>Ethan Chaudat</p>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 <span>Ethan Chaudat</span> — Portfolio Cybersécurité &nbsp;|&nbsp; <span>ec://v2.0</span></p>
+</footer>
+
+<script>
+  const SYSTEM_PROMPT = `Tu es un assistant intégré dans le portfolio d'Ethan Chaudat, un étudiant en cybersécurité. Réponds aux questions des visiteurs (recruteurs, professeurs, curieux) sur son profil. Sois concis, professionnel, et chaleureux. Réponse en 2-4 phrases max, en français.
+
+PROFIL COMPLET D'ETHAN CHAUDAT :
+
+Formation : Étudiant en cybersécurité, dans tous les domaines. 2025–2026.
+
+PROJET 1 — Architecture réseau sécurisée :
+Conception d'une infrastructure réseau d'entreprise segmentée en zones (serveurs, postes clients, DMZ). Configuration d'Active Directory, DNS, DHCP. Mise en place d'un firewall avec règles inter-zones pour cloisonner les services.
+
+PROJET 2 — Supervision & hardening réseau :
+Audit et analyse de vulnérabilités réseau. Déploiement du SIEM Wazuh pour centraliser les logs et déclencher des alertes. Installation d'un proxy SSL. Filtrage du trafic utilisateur. Détection active d'intrusions.
+
+PROJET 3 — Cyberfolio (portfolio web sécurisé) :
+Développement full stack en PHP/MySQL/JavaScript. Dashboard d'administration multi-utilisateurs. Authentification renforcée 2FA via Discord. Hachage des mots de passe avec Bcrypt. Validation stricte des entrées utilisateur. Protection SQL injection. Intégration de l'API Have I Been Pwned.
+
+COMPÉTENCES RÉSEAU : TCP/IP, VLAN, Firewall, DNS/DHCP, Active Directory, Segmentation réseau, Routage statique.
+COMPÉTENCES SÉCURITÉ : Wazuh SIEM, Proxy SSL, Pentest, Bcrypt, API HIBP, 2FA, Analyse de vulnérabilités, Nmap, Wireshark.
+COMPÉTENCES DEV : PHP, MySQL/MariaDB, HTML5/CSS3, JavaScript, Bootstrap, Python, C.
+OUTILS : Apache, Git/GitHub, Linux, Windows Server, VMware/VirtualBox.
+
+SOFT SKILLS : travail en équipe (groupe de 3 sur le projet V1), gestion de projet agile, présentation technique, soutenance devant jury, rigueur, curiosité.`;
+
+  async function askAI() {
+    const input = document.getElementById('ai-input');
+    const resp = document.getElementById('ai-response');
+    const btn = document.getElementById('ai-btn');
+    const q = input.value.trim();
+    if (!q) return;
+
+    btn.disabled = true;
+    btn.textContent = '...';
+    resp.className = 'loading';
+    resp.textContent = '> Analyse en cours...';
+    input.value = '';
+
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-6',
+          max_tokens: 1000,
+          system: SYSTEM_PROMPT,
+          messages: [{ role: 'user', content: q }]
+        })
+      });
+
+      if (!res.ok) throw new Error('API error ' + res.status);
+
+      const data = await res.json();
+      const text = data.content?.find(b => b.type === 'text')?.text || 'Aucune réponse obtenue.';
+
+      resp.className = 'has-content';
+      resp.textContent = text;
+    } catch (e) {
+      resp.className = 'has-content';
+      resp.textContent = 'Une erreur est survenue. Vérifie ta connexion et réessaie.';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Envoyer ↗';
+    }
+  }
+
+  function fillAndAsk(q) {
+    document.getElementById('ai-input').value = q;
+    askAI();
+  }
+
+  document.getElementById('ai-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') askAI();
+  });
+</script>
+</body>
+</html>
