@@ -138,6 +138,13 @@ button{
     background:#f0ece2;
 }
 
+.no.roaming{
+    position:fixed;
+    flex:none;
+    z-index:10;
+    transition:top .25s ease, left .25s ease;
+}
+
 #success{
     display:none;
 }
@@ -193,7 +200,7 @@ button{
 
     <p class="eyebrow">Une petite question</p>
 
-    <h1>Tu viens passer du temps avec moi, <em>Ylis</em> ?</h1>
+    <h1>Veux-tu utiliser tes beaux talons et passer un moment avec moi <em>mon coeur</em> ?</h1>
 
     <p class="subtitle">
         Rien de compliqué. Juste un moment à deux — dis-moi où, quand, et à quelle heure.
@@ -202,7 +209,7 @@ button{
     <div class="card">
 
         <div class="field">
-            <label>Où</label>
+            <label>Où (on peut chercher ensemble si tu préfères)</label>
             <input id="lieu" placeholder="Un endroit qui te plaît">
         </div>
 
@@ -218,7 +225,7 @@ button{
 
         <div class="buttons">
             <button class="yes" onclick="confirmDate()">Oui, avec plaisir</button>
-            <button class="no" onclick="alert('Pas de souci, dis-le moi simplement 🙂')">Pas cette fois</button>
+            <button class="no" id="noBtn" onclick="dodge()">Pas cette fois</button>
         </div>
 
     </div>
@@ -243,13 +250,29 @@ button{
         </div>
 
         <p class="reminder">
-            Pense à faire une <strong>capture d'écran</strong> et à l'envoyer à ton amoureux 💌
+            Pense à faire une <strong>capture d'écran</strong> et à l'envoyer à ton amoureux (moi) 💌
         </p>
     </div>
 
 </main>
 
 <script>
+function dodge(){
+    const btn = document.querySelector("#noBtn");
+    const w = btn.offsetWidth;
+    const h = btn.offsetHeight;
+
+    const maxX = window.innerWidth - w - 16;
+    const maxY = window.innerHeight - h - 16;
+
+    const x = Math.max(16, Math.random() * maxX);
+    const y = Math.max(16, Math.random() * maxY);
+
+    btn.classList.add("roaming");
+    btn.style.left = x + "px";
+    btn.style.top = y + "px";
+}
+
 function confirmDate(){
     let lieu = document.querySelector("#lieu").value;
     let date = document.querySelector("#date").value;
