@@ -3,744 +3,274 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Une invitation</title>
 
-<title>Vol avec moi 🐉</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
-
 :root{
-    --sky:#08131f;
-    --night:#050914;
-    --dragon:#193f45;
-    --mint:#9fe3d4;
-    --fire:#ff8b4d;
-    --cream:#f6ebd5;
-    --gold:#d9b36c;
+    --ink:#1c2430;
+    --paper:#f4f1ea;
+    --line:#d8d2c2;
+    --accent:#a9714f;
+    --muted:#7c7768;
 }
 
-
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
-
+*{ box-sizing:border-box; margin:0; padding:0; }
 
 body{
-
     min-height:100vh;
-
-    background:
-    radial-gradient(circle at 50% 0%,rgba(159,227,212,.15),transparent 35%),
-    radial-gradient(circle at 80% 80%,rgba(255,139,77,.12),transparent 30%),
-    linear-gradient(#091725,#050914);
-
-    color:white;
+    background:var(--paper);
+    color:var(--ink);
     font-family:Inter,sans-serif;
-    overflow-x:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:40px 18px;
 }
-
-
-/* ciel */
-
-.stars{
-    position:fixed;
-    inset:0;
-    background-image:
-    radial-gradient(#fff 1px,transparent 1px);
-    background-size:80px 80px;
-    opacity:.25;
-    animation:stars 80s linear infinite;
-}
-
-
-@keyframes stars{
-    from{background-position:0 0}
-    to{background-position:-500px 500px}
-}
-
-
-
-/* lune */
-
-.moon{
-
-    position:fixed;
-    right:8%;
-    top:10%;
-
-    width:100px;
-    height:100px;
-
-    border-radius:50%;
-
-    background:#fff2c9;
-
-    box-shadow:
-    0 0 80px rgba(255,240,200,.5);
-
-}
-
-
-
-/* contenu */
 
 main{
-
-    position:relative;
-    z-index:2;
-
-    max-width:600px;
-    margin:auto;
-
-    padding:70px 20px;
-
-    text-align:center;
-
-}
-
-
-/* petit titre */
-
-.badge{
-
-    display:inline-block;
-
-    padding:8px 18px;
-
-    border-radius:999px;
-
-    background:rgba(159,227,212,.1);
-
-    border:1px solid rgba(159,227,212,.25);
-
-    color:var(--mint);
-
-    font-size:12px;
-
-    letter-spacing:2px;
-
-}
-
-
-
-/* dragon */
-
-.dragon{
-
-    width:280px;
-    margin:35px auto;
-
-    animation:float 4s ease-in-out infinite;
-
-}
-
-
-
-@keyframes float{
-
-    50%{
-        transform:translateY(-12px);
-    }
-
-}
-
-
-.dragon svg{
-
     width:100%;
-
-    filter:
-    drop-shadow(0 20px 30px rgba(0,0,0,.5));
-
+    max-width:460px;
 }
 
-
-
-/* titre */
+.eyebrow{
+    font-size:12px;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    color:var(--muted);
+    text-align:center;
+    margin-bottom:18px;
+}
 
 h1{
-
-    font-family:Cinzel,serif;
-
-    font-size:clamp(2rem,6vw,3rem);
-
-    line-height:1.2;
-
+    font-family:"Cormorant Garamond",serif;
+    font-weight:600;
+    font-size:clamp(1.9rem,6vw,2.6rem);
+    text-align:center;
+    line-height:1.25;
 }
 
-
-h1 span{
-
-    color:var(--fire);
-
+h1 em{
+    font-style:italic;
+    color:var(--accent);
 }
-
-
 
 .subtitle{
-
-    margin:20px auto 35px;
-
-    max-width:450px;
-
-    color:#c9c5b7;
-
+    margin:16px auto 36px;
+    max-width:360px;
+    text-align:center;
+    color:var(--muted);
+    font-size:15px;
     line-height:1.7;
-
 }
-
-
-
-/* carte */
-
 
 .card{
-
-
-    background:
-    linear-gradient(
-    145deg,
-    rgba(255,255,255,.08),
-    rgba(255,255,255,.02)
-    );
-
-
-    backdrop-filter:blur(15px);
-
-
-    border:
-
-    1px solid rgba(255,255,255,.12);
-
-
-    border-radius:28px;
-
-
-    padding:30px;
-
-
-
-    box-shadow:
-    0 30px 80px rgba(0,0,0,.4);
-
+    background:#fffdf9;
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:32px 28px;
 }
-
-
-
 
 label{
-
     display:block;
-
-    text-align:left;
-
-    font-size:12px;
-
-    letter-spacing:2px;
-
-    color:var(--mint);
-
+    font-size:11px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    color:var(--muted);
     margin-bottom:8px;
-
 }
 
-
+.field{
+    margin-bottom:20px;
+}
 
 input{
-
     width:100%;
-
-    padding:15px;
-
-    margin-bottom:20px;
-
-
-    background:#07111c;
-
-
-    border-radius:14px;
-
-    border:1px solid rgba(255,255,255,.15);
-
-
-    color:white;
-
+    padding:13px 14px;
+    background:transparent;
+    border:1px solid var(--line);
+    border-radius:10px;
+    color:var(--ink);
     font-size:15px;
-
+    font-family:Inter,sans-serif;
 }
-
 
 input:focus{
-
     outline:none;
-
-    border-color:var(--fire);
-
+    border-color:var(--accent);
 }
-
-
-
-
 
 .buttons{
-
     display:flex;
-
-    justify-content:center;
-
-    gap:15px;
-
+    gap:12px;
+    margin-top:8px;
 }
-
-
 
 button{
-
-
-    padding:15px 25px;
-
-    border-radius:999px;
-
-    border:none;
-
+    flex:1;
+    padding:14px 20px;
+    border-radius:10px;
+    border:1px solid transparent;
     cursor:pointer;
-
-    font-weight:700;
-
-    transition:.25s;
-
+    font-weight:600;
+    font-size:14px;
+    font-family:Inter,sans-serif;
+    transition:opacity .2s ease, transform .2s ease;
 }
-
-
 
 .yes{
-
-    background:linear-gradient(135deg,#ff9a55,#ff6533);
-
-    color:white;
-
-    box-shadow:
-    0 10px 30px rgba(255,120,50,.4);
-
+    background:var(--accent);
+    color:#fff;
 }
-
-
 
 .yes:hover{
-
-    transform:scale(1.05);
-
+    opacity:.9;
 }
-
-
 
 .no{
-
-    background:rgba(255,255,255,.08);
-
-    color:#ddd;
-
+    background:transparent;
+    border-color:var(--line);
+    color:var(--muted);
 }
 
-
-
-
-/* résultat */
-
+.no:hover{
+    background:#f0ece2;
+}
 
 #success{
-
     display:none;
-
 }
-
 
 .scroll{
-
-
-    margin-top:30px;
-
-    padding:25px;
-
-
-    background:#101a24;
-
-
-    border-radius:20px;
-
-    border:1px solid rgba(255,255,255,.1);
-
+    margin-top:0;
+    padding:26px 28px;
 }
-
 
 .row{
-
     display:flex;
-
     justify-content:space-between;
-
     padding:12px 0;
-
-    border-bottom:1px solid rgba(255,255,255,.08);
-
+    border-bottom:1px solid var(--line);
+    font-size:15px;
 }
-
 
 .row:last-child{
-
     border:none;
-
 }
-
-
 
 .label{
-
-    color:var(--mint);
-
+    color:var(--muted);
 }
-
-
 
 .value{
-
-    font-weight:bold;
-
+    font-weight:600;
+    text-align:right;
 }
 
-
-
-/* flammes */
-
-
-.spark{
-
-position:fixed;
-
-bottom:-20px;
-
-width:6px;
-
-height:6px;
-
-background:#ff8b4d;
-
-border-radius:50%;
-
-animation:rise 5s linear forwards;
-
+.reminder{
+    margin-top:26px;
+    text-align:center;
+    font-size:13px;
+    color:var(--muted);
+    line-height:1.6;
 }
 
-
-
-@keyframes rise{
-
-to{
-
-transform:
-translateY(-110vh)
-translateX(50px);
-
-opacity:0;
-
+.reminder strong{
+    color:var(--accent);
+    font-weight:600;
 }
 
+@media(max-width:400px){
+    .buttons{ flex-direction:column; }
 }
-
-
-
-
-
-@media(max-width:500px){
-
-.buttons{
-
-flex-direction:column;
-
-}
-
-.dragon{
-
-width:220px;
-
-}
-
-}
-
-
-
 </style>
-
 </head>
-
 
 <body>
 
-
-<div class="stars"></div>
-
-<div class="moon"></div>
-
-
-
 <main>
 
-
-<div class="badge">
-MESSAGE DE BERK • MISSION DRAGON
-</div>
-
-
-
-<div class="dragon">
-
-
-<svg viewBox="0 0 300 220">
-
-<!-- ailes -->
-
-<path d="M70 110 Q20 40 80 35 Q110 80 130 100"
-fill="#193f45"/>
-
-
-<path d="M230 110 Q280 40 220 35 Q190 80 170 100"
-fill="#193f45"/>
-
-
-<!-- corps -->
-
-<ellipse cx="150" cy="120" rx="55" ry="70"
-fill="#204b52"/>
-
-
-<!-- oreilles -->
-
-<path d="M110 60 L90 30 L130 45Z"
-fill="#193f45"/>
-
-
-<path d="M190 60 L210 30 L170 45Z"
-fill="#193f45"/>
-
-
-<!-- yeux -->
-
-<circle cx="130" cy="105" r="8"
-fill="#9fe3d4"/>
-
-<circle cx="170" cy="105" r="8"
-fill="#9fe3d4"/>
-
-
-<!-- sourire -->
-
-<path d="M125 140 Q150 160 175 140"
-stroke="#ff8b4d"
-stroke-width="5"
-fill="none"
-stroke-linecap="round"/>
-
-
-</svg>
-
-
-</div>
-
-
-
-<h1>
-Tu viens voler avec moi, <span>Ylis</span> ?
-</h1>
-
-
-<p class="subtitle">
-
-Une petite aventure façon Berk.
-Un lieu, une date, une heure…
-et on laisse le dragon choisir le chemin.
-
-</p>
-
-
-
-
-<div class="card">
-
-
-<input id="lieu" placeholder="📍 Où part-on ?">
-
-
-<input id="date" type="date">
-
-
-<input id="heure" type="time">
-
-
-
-<div class="buttons">
-
-
-<button class="yes" onclick="confirmDate()">
-
-🐉 Oui, je monte
-
-</button>
-
-
-<button class="no" id="no">
-
-Pas cette fois
-
-</button>
-
-
-</div>
-
-
-</div>
-
-
-
-
-<div id="success">
-
-
-<h1>
-Vol confirmé 🔥
-</h1>
-
-
-<div class="scroll">
-
-
-<div class="row">
-
-<span class="label">Lieu</span>
-
-<span class="value" id="oLieu"></span>
-
-</div>
-
-
-<div class="row">
-
-<span class="label">Date</span>
-
-<span class="value" id="oDate"></span>
-
-</div>
-
-
-<div class="row">
-
-<span class="label">Heure</span>
-
-<span class="value" id="oHeure"></span>
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
+    <p class="eyebrow">Une petite question</p>
+
+    <h1>Tu viens passer du temps avec moi, <em>Ylis</em> ?</h1>
+
+    <p class="subtitle">
+        Rien de compliqué. Juste un moment à deux — dis-moi où, quand, et à quelle heure.
+    </p>
+
+    <div class="card">
+
+        <div class="field">
+            <label>Où</label>
+            <input id="lieu" placeholder="Un endroit qui te plaît">
+        </div>
+
+        <div class="field">
+            <label>Date</label>
+            <input id="date" type="date">
+        </div>
+
+        <div class="field">
+            <label>Heure</label>
+            <input id="heure" type="time">
+        </div>
+
+        <div class="buttons">
+            <button class="yes" onclick="confirmDate()">Oui, avec plaisir</button>
+            <button class="no" onclick="alert('Pas de souci, dis-le moi simplement 🙂')">Pas cette fois</button>
+        </div>
+
+    </div>
+
+    <div id="success" class="card">
+        <h1 style="margin-bottom:6px;">C'est noté</h1>
+        <p class="subtitle" style="margin-bottom:0;">Voici ce qu'on a prévu :</p>
+
+        <div class="scroll">
+            <div class="row">
+                <span class="label">Lieu</span>
+                <span class="value" id="oLieu"></span>
+            </div>
+            <div class="row">
+                <span class="label">Date</span>
+                <span class="value" id="oDate"></span>
+            </div>
+            <div class="row">
+                <span class="label">Heure</span>
+                <span class="value" id="oHeure"></span>
+            </div>
+        </div>
+
+        <p class="reminder">
+            Pense à faire une <strong>capture d'écran</strong> et à l'envoyer à ton amoureux 💌
+        </p>
+    </div>
 
 </main>
 
-
-
 <script>
-
-
-const no=document.querySelector("#no");
-
-
-no.addEventListener("mouseover",()=>{
-
-no.style.transform=
-`translate(${Math.random()*200-100}px,
-${Math.random()*80-40}px)`;
-
-});
-
-
 function confirmDate(){
+    let lieu = document.querySelector("#lieu").value;
+    let date = document.querySelector("#date").value;
+    let heure = document.querySelector("#heure").value;
 
+    if(!lieu || !date || !heure){
+        alert("Il manque encore quelques informations 🙂");
+        return;
+    }
 
-let lieu=document.querySelector("#lieu").value;
-let date=document.querySelector("#date").value;
-let heure=document.querySelector("#heure").value;
+    document.querySelector("#oLieu").innerHTML = lieu;
 
+    document.querySelector("#oDate").innerHTML = new Date(date)
+        .toLocaleDateString("fr-FR", { weekday:"long", day:"numeric", month:"long" });
 
-if(!lieu||!date||!heure){
+    document.querySelector("#oHeure").innerHTML = heure;
 
-alert("Le dragon attend encore les informations 🐉");
-
-return;
-
+    document.querySelector(".card").style.display = "none";
+    document.querySelector("#success").style.display = "block";
 }
-
-
-
-document.querySelector("#oLieu").innerHTML=lieu;
-
-document.querySelector("#oDate").innerHTML=
-new Date(date)
-.toLocaleDateString("fr-FR",
-{
-weekday:"long",
-day:"numeric",
-month:"long"
-});
-
-
-document.querySelector("#oHeure").innerHTML=heure;
-
-
-
-document.querySelector(".card").style.display="none";
-
-document.querySelector("#success").style.display="block";
-
-
-for(let i=0;i<40;i++){
-
-setTimeout(()=>{
-
-
-let s=document.createElement("div");
-
-s.className="spark";
-
-s.style.left=Math.random()*100+"vw";
-
-s.style.animationDuration=
-3+Math.random()*3+"s";
-
-
-document.body.appendChild(s);
-
-
-setTimeout(()=>s.remove(),5000);
-
-
-},i*80);
-
-
-}
-
-
-}
-
-
-
 </script>
-
 
 </body>
 </html>
