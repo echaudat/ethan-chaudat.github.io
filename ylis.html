@@ -3,295 +3,943 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Une invitation</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
+<title>Notre soirée</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{
-    --ink:#1c2430;
-    --paper:#f4f1ea;
-    --line:#d8d2c2;
-    --accent:#a9714f;
-    --muted:#7c7768;
+:root {
+  --bg:       #0d0f1a;
+  --surface:  #151826;
+  --card:     #1c2035;
+  --border:   #2a2f4a;
+  --rose:     #e8749a;
+  --gold:     #c9a84c;
+  --text:     #e8e4f0;
+  --muted:    #7a7d9a;
+  --success:  #6fcf97;
 }
 
-*{ box-sizing:border-box; margin:0; padding:0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-body{
-    min-height:100vh;
-    background:var(--paper);
-    color:var(--ink);
-    font-family:Inter,sans-serif;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:40px 18px;
+html { scroll-behavior: smooth; }
+
+body {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, sans-serif;
+  overflow-x: hidden;
 }
 
-main{
-    width:100%;
-    max-width:460px;
+/* ── CANVAS CŒUR ── */
+#heartCanvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: .18;
 }
 
-.eyebrow{
-    font-size:12px;
-    letter-spacing:3px;
-    text-transform:uppercase;
-    color:var(--muted);
-    text-align:center;
-    margin-bottom:18px;
+/* ── LAYOUT ── */
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 60px 20px 100px;
 }
 
-h1{
-    font-family:"Cormorant Garamond",serif;
-    font-weight:600;
-    font-size:clamp(1.9rem,6vw,2.6rem);
-    text-align:center;
-    line-height:1.25;
+/* ── HERO ── */
+.hero {
+  text-align: center;
+  margin-bottom: 56px;
 }
 
-h1 em{
-    font-style:italic;
-    color:var(--accent);
+.hero-eyebrow {
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--rose);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeUp .6s .3s forwards;
 }
 
-.subtitle{
-    margin:16px auto 36px;
-    max-width:360px;
-    text-align:center;
-    color:var(--muted);
-    font-size:15px;
-    line-height:1.7;
+.hero h1 {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(2rem, 7vw, 2.9rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text);
+  opacity: 0;
+  animation: fadeUp .7s .5s forwards;
 }
 
-.card{
-    background:#fffdf9;
-    border:1px solid var(--line);
-    border-radius:18px;
-    padding:32px 28px;
+.hero h1 em {
+  font-style: italic;
+  color: var(--rose);
 }
 
-label{
-    display:block;
-    font-size:11px;
-    letter-spacing:1.5px;
-    text-transform:uppercase;
-    color:var(--muted);
-    margin-bottom:8px;
+.hero-sub {
+  margin-top: 18px;
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.75;
+  opacity: 0;
+  animation: fadeUp .7s .7s forwards;
 }
 
-.field{
-    margin-bottom:20px;
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-input{
-    width:100%;
-    padding:13px 14px;
-    background:transparent;
-    border:1px solid var(--line);
-    border-radius:10px;
-    color:var(--ink);
-    font-size:15px;
-    font-family:Inter,sans-serif;
+/* ── CARD ── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px 28px;
+  margin-bottom: 24px;
 }
 
-input:focus{
-    outline:none;
-    border-color:var(--accent);
+.card-title {
+  font-family: "Playfair Display", serif;
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 24px;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.buttons{
-    display:flex;
-    gap:12px;
-    margin-top:8px;
+.card-title svg {
+  flex-shrink: 0;
 }
 
-button{
-    flex:1;
-    padding:14px 20px;
-    border-radius:10px;
-    border:1px solid transparent;
-    cursor:pointer;
-    font-weight:600;
-    font-size:14px;
-    font-family:Inter,sans-serif;
-    transition:opacity .2s ease, transform .2s ease;
+/* ── FIELD ── */
+.field { margin-bottom: 20px; }
+
+.field label {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
 }
 
-.yes{
-    background:var(--accent);
-    color:#fff;
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 13px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  font-size: 15px;
+  font-family: Inter, sans-serif;
+  transition: border-color .2s;
 }
 
-.yes:hover{
-    opacity:.9;
+.field input:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--rose);
 }
 
-.no{
-    background:transparent;
-    border-color:var(--line);
-    color:var(--muted);
+.field textarea { resize: vertical; min-height: 80px; }
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(.6);
+  cursor: pointer;
 }
 
-.no:hover{
-    background:#f0ece2;
+/* ── BUTTONS ── */
+.btn-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
 }
 
-.no.roaming{
-    position:fixed;
-    flex:none;
-    z-index:10;
-    transition:top .25s ease, left .25s ease;
+button {
+  flex: 1;
+  padding: 14px 20px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: Inter, sans-serif;
+  transition: opacity .2s, transform .15s;
 }
 
-#success{
-    display:none;
+button:active { transform: scale(.97); }
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--rose), #c45a82);
+  color: #fff;
 }
 
-.scroll{
-    margin-top:0;
-    padding:26px 28px;
+.btn-primary:hover { opacity: .88; }
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
 }
 
-.row{
-    display:flex;
-    justify-content:space-between;
-    padding:12px 0;
-    border-bottom:1px solid var(--line);
-    font-size:15px;
+.btn-ghost:hover { background: var(--border); }
+
+.btn-google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 20px;
+  background: #fff;
+  color: #3c3c3c;
+  border-radius: 12px;
+  border: none;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: Inter, sans-serif;
+  cursor: pointer;
+  transition: opacity .2s;
 }
 
-.row:last-child{
-    border:none;
+.btn-google:hover { opacity: .9; }
+
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold), #a8862f);
+  color: #0d0f1a;
 }
 
-.label{
-    color:var(--muted);
+/* ── GOOGLE STATUS ── */
+#googleStatus {
+  margin-top: 16px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 13px;
+  display: none;
 }
 
-.value{
-    font-weight:600;
-    text-align:right;
+#googleStatus.connected {
+  background: rgba(111,207,151,.12);
+  border: 1px solid rgba(111,207,151,.3);
+  color: var(--success);
+  display: block;
 }
 
-.reminder{
-    margin-top:26px;
-    text-align:center;
-    font-size:13px;
-    color:var(--muted);
-    line-height:1.6;
+#googleStatus.error {
+  background: rgba(232,116,154,.1);
+  border: 1px solid rgba(232,116,154,.3);
+  color: var(--rose);
+  display: block;
 }
 
-.reminder strong{
-    color:var(--accent);
-    font-weight:600;
+/* ── NO-BUTTON DODGE ── */
+.btn-no-fixed {
+  position: fixed;
+  z-index: 999;
+  flex: none;
+  transition: top .28s cubic-bezier(.4,0,.2,1), left .28s cubic-bezier(.4,0,.2,1);
+  pointer-events: auto;
 }
 
-@media(max-width:400px){
-    .buttons{ flex-direction:column; }
+/* ── CONFIRMATION ── */
+#confirmCard { display: none; }
+
+.confirm-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 15px;
+}
+
+.confirm-row:last-child { border: none; }
+.confirm-row .clabel { color: var(--muted); }
+.confirm-row .cvalue { font-weight: 600; }
+
+.reminder {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.reminder strong { color: var(--rose); }
+
+/* ── SECTION TITRE ── */
+.section-label {
+  font-size: 11px;
+  letter-spacing: 3.5px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+/* ── MEMORIES ── */
+#memoriesSection { margin-top: 40px; }
+
+.memories-title {
+  font-family: "Playfair Display", serif;
+  font-size: 1.6rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.memories-sub {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 28px;
+  line-height: 1.6;
+}
+
+.memory-form {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px 24px;
+  margin-bottom: 28px;
+}
+
+.memory-form .form-title {
+  font-family: "Playfair Display", serif;
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  color: var(--text);
+}
+
+/* DROP ZONE */
+.drop-zone {
+  border: 2px dashed var(--border);
+  border-radius: 14px;
+  padding: 32px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color .2s, background .2s;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.drop-zone:hover, .drop-zone.dragover {
+  border-color: var(--rose);
+  background: rgba(232,116,154,.05);
+}
+
+.drop-zone input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.drop-icon { font-size: 32px; margin-bottom: 8px; }
+
+.drop-text { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+.drop-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.drop-preview img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+/* MEMORIES GRID */
+.memories-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.memory-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  animation: fadeUp .5s forwards;
+}
+
+.memory-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+}
+
+.memory-card .mc-body {
+  padding: 14px;
+}
+
+.mc-date {
+  font-size: 11px;
+  color: var(--rose);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.mc-title {
+  font-family: "Playfair Display", serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.mc-note {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.mc-delete {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 11px;
+  cursor: pointer;
+  padding: 6px 0 0;
+  font-family: Inter, sans-serif;
+  flex: 0;
+}
+
+.mc-delete:hover { color: var(--rose); }
+
+.mc-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px 12px;
+  border-top: 1px solid var(--border);
+}
+
+/* empty state */
+.memories-empty {
+  grid-column: 1/-1;
+  text-align: center;
+  padding: 48px 20px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+/* ── FOOTER ── */
+footer {
+  margin-top: 72px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--border);
+}
+
+/* ── TOAST ── */
+.toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 12px 24px;
+  font-size: 13px;
+  color: var(--text);
+  transition: transform .35s cubic-bezier(.4,0,.2,1);
+  z-index: 1000;
+  white-space: nowrap;
+}
+
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+@media (max-width: 400px) {
+  .btn-row { flex-direction: column; }
+  .memories-grid { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
 }
 </style>
 </head>
-
 <body>
 
-<main>
+<!-- Fond animé cœur -->
+<canvas id="heartCanvas"></canvas>
 
-    <p class="eyebrow">Une petite question</p>
+<div class="page">
 
-    <h1>Veux-tu utiliser tes beaux talons et passer un moment avec moi <em>mon coeur</em> ?</h1>
+  <!-- ── HERO ── -->
+  <div class="hero">
+    <p class="hero-eyebrow">Une invitation</p>
+    <h1>Veux-tu passer une soirée avec moi, <em>mon cœur</em>&nbsp;?</h1>
+    <p class="hero-sub">Rien de compliqué — juste toi, moi, et un moment qui compte.</p>
+  </div>
 
-    <p class="subtitle">
-        Rien de compliqué. Juste un moment à deux — dis-moi où, quand, et à quelle heure.
+  <!-- ── CONNEXION GOOGLE ── -->
+  <div class="card" id="googleCard">
+    <div class="card-title">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--rose)" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+      Agenda Google
+    </div>
+    <p style="font-size:14px;color:var(--muted);line-height:1.65;margin-bottom:20px;">
+      Connecte-toi pour qu'on puisse ajouter automatiquement notre soirée dans ton agenda.
     </p>
+    <button class="btn-google" id="btnGoogleLogin" onclick="signInGoogle()">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.2l6.8-6.8C35.7 2.5 30.2 0 24 0 14.7 0 6.7 5.5 2.7 13.6l7.9 6.1C12.5 13.1 17.8 9.5 24 9.5z"/><path fill="#4A90D9" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8C43.6 37.4 46.5 31.4 46.5 24.5z"/><path fill="#34A853" d="M10.6 28.3A14.9 14.9 0 0 1 9.5 24c0-1.5.2-3 .5-4.3l-7.9-6.1A23.9 23.9 0 0 0 0 24c0 3.9.9 7.5 2.7 10.7l7.9-6.4z"/><path fill="#FBBC05" d="M24 48c6.2 0 11.4-2 15.2-5.5l-7.5-5.8c-2.1 1.4-4.7 2.3-7.7 2.3-6.2 0-11.5-4.2-13.4-9.8l-7.9 6.1C6.7 42.5 14.7 48 24 48z"/></svg>
+      Se connecter avec Google
+    </button>
+    <div id="googleStatus"></div>
+  </div>
 
-    <div class="card">
-
-        <div class="field">
-            <label>Où (on peut chercher ensemble si tu préfères)</label>
-            <input id="lieu" placeholder="Un endroit qui te plaît">
-        </div>
-
-        <div class="field">
-            <label>Date</label>
-            <input id="date" type="date">
-        </div>
-
-        <div class="field">
-            <label>Heure</label>
-            <input id="heure" type="time">
-        </div>
-
-        <div class="buttons">
-            <button class="yes" onclick="confirmDate()">Oui, avec plaisir</button>
-            <button class="no" id="noBtn" onclick="dodge()">Pas cette fois</button>
-        </div>
-
+  <!-- ── FORMULAIRE DATE ── -->
+  <div class="card" id="formCard">
+    <div class="card-title">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--rose)" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      Notre soirée
     </div>
 
-    <div id="success" class="card">
-        <h1 style="margin-bottom:6px;">C'est noté</h1>
-        <p class="subtitle" style="margin-bottom:0;">Voici ce qu'on a prévu :</p>
-
-        <div class="scroll">
-            <div class="row">
-                <span class="label">Lieu</span>
-                <span class="value" id="oLieu"></span>
-            </div>
-            <div class="row">
-                <span class="label">Date</span>
-                <span class="value" id="oDate"></span>
-            </div>
-            <div class="row">
-                <span class="label">Heure</span>
-                <span class="value" id="oHeure"></span>
-            </div>
-        </div>
-
-        <p class="reminder">
-            Pense à faire une <strong>capture d'écran</strong> et à l'envoyer à ton amoureux (moi) 💌
-        </p>
+    <div class="field">
+      <label>Où ?</label>
+      <input id="lieu" placeholder="Un endroit qui te plaît…">
     </div>
 
-</main>
+    <div class="field">
+      <label>Date</label>
+      <input id="date" type="date">
+    </div>
+
+    <div class="field">
+      <label>Heure</label>
+      <input id="heure" type="time">
+    </div>
+
+    <div class="field">
+      <label>Un mot pour décrire (optionnel)</label>
+      <input id="description" placeholder="Dîner aux chandelles, promenade…">
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-primary" onclick="confirmDate()">Oui, avec plaisir ✦</button>
+      <button class="btn-ghost" id="noBtn" onclick="dodge()">Pas cette fois</button>
+    </div>
+  </div>
+
+  <!-- ── CONFIRMATION ── -->
+  <div class="card" id="confirmCard">
+    <div class="card-title">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="1.8"><polyline points="20 6 9 17 4 12"/></svg>
+      C'est noté&nbsp;!
+    </div>
+
+    <div id="confirmRows"></div>
+
+    <div id="calendarResult" style="margin-top:16px;"></div>
+
+    <div class="reminder">
+      Fais une <strong>capture d'écran</strong> et envoie-la à ton amoureux 💌
+    </div>
+  </div>
+
+  <!-- ── SOUVENIRS ── -->
+  <div id="memoriesSection">
+    <p class="section-label">Nos souvenirs</p>
+    <h2 class="memories-title">Nos anciens rendez-vous</h2>
+    <p class="memories-sub">Ajoute des photos et des notes pour garder une trace de vos moments ensemble.</p>
+
+    <!-- Formulaire ajout souvenir -->
+    <div class="memory-form">
+      <div class="form-title">Ajouter un souvenir</div>
+
+      <div class="drop-zone" id="dropZone">
+        <input type="file" id="memoryFiles" accept="image/*" multiple onchange="previewImages(event)">
+        <div class="drop-icon">📷</div>
+        <div class="drop-text">Clique ou glisse tes photos ici<br><span style="font-size:11px;">JPG, PNG, WEBP — plusieurs à la fois</span></div>
+        <div class="drop-preview" id="dropPreview"></div>
+      </div>
+
+      <div class="field">
+        <label>Titre du souvenir</label>
+        <input id="memTitle" placeholder="ex : Premier restaurant ensemble…">
+      </div>
+
+      <div class="field">
+        <label>Date</label>
+        <input id="memDate" type="date">
+      </div>
+
+      <div class="field">
+        <label>Une note</label>
+        <textarea id="memNote" placeholder="Ce soir-là, tu portais…"></textarea>
+      </div>
+
+      <button class="btn-gold" style="width:100%;" onclick="addMemory()">Ajouter ce souvenir ✦</button>
+    </div>
+
+    <!-- Grille des souvenirs -->
+    <div class="memories-grid" id="memoriesGrid">
+      <div class="memories-empty">Aucun souvenir encore — sois le premier à en ajouter&nbsp;✨</div>
+    </div>
+  </div>
+
+  <footer>fait avec amour ♥</footer>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Google Identity Services -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 
 <script>
-function dodge(){
-    const btn = document.querySelector("#noBtn");
-    const w = btn.offsetWidth;
-    const h = btn.offsetHeight;
+/* ═══════════════════════════════════════════════
+   CONFIGURATION — Remplace par ton vrai Client ID
+   ════════════════════════════════════════════════ */
+const GOOGLE_CLIENT_ID = "991089394451-gf99p8l4tmri6tluboua2d7iptt7dreu.apps.googleusercontent.com";
+// Instructions en bas de page (dans la console) pour créer ton Client ID gratuitement.
 
-    const maxX = window.innerWidth - w - 16;
-    const maxY = window.innerHeight - h - 16;
+/* ═══════════════════════════════════════════════
+   CŒUR ANIMÉ SUR CANVAS
+   ════════════════════════════════════════════════ */
+(function () {
+  const canvas = document.getElementById("heartCanvas");
+  const ctx = canvas.getContext("2d");
 
-    const x = Math.max(16, Math.random() * maxX);
-    const y = Math.max(16, Math.random() * maxY);
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener("resize", resize);
 
-    btn.classList.add("roaming");
-    btn.style.left = x + "px";
-    btn.style.top = y + "px";
-}
+  // Paramètres cœur
+  const hearts = [];
+  const MAX = 5;
 
-function confirmDate(){
-    let lieu = document.querySelector("#lieu").value;
-    let date = document.querySelector("#date").value;
-    let heure = document.querySelector("#heure").value;
+  function heartX(t) { return 16 * Math.pow(Math.sin(t), 3); }
+  function heartY(t) { return -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t)); }
 
-    if(!lieu || !date || !heure){
-        alert("Il manque encore quelques informations 🙂");
-        return;
+  function newHeart() {
+    const cx = Math.random() * canvas.width;
+    const cy = Math.random() * canvas.height;
+    const size = 30 + Math.random() * 60;
+    return { cx, cy, size, progress: 0, speed: .004 + Math.random() * .004, alpha: 0 };
+  }
+
+  for (let i = 0; i < MAX; i++) {
+    const h = newHeart();
+    h.progress = Math.random(); // déphasage
+    hearts.push(h);
+  }
+
+  function drawHeart(h) {
+    const steps = 200;
+    const count = Math.floor(h.progress * steps);
+    if (count < 2) return;
+
+    ctx.beginPath();
+    for (let i = 0; i < count; i++) {
+      const t = (i / steps) * 2 * Math.PI;
+      const x = h.cx + heartX(t) * (h.size / 16);
+      const y = h.cy + heartY(t) * (h.size / 16);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
     }
 
-    document.querySelector("#oLieu").innerHTML = lieu;
+    ctx.strokeStyle = `rgba(232,116,154,${h.alpha})`;
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
+  }
 
-    document.querySelector("#oDate").innerHTML = new Date(date)
-        .toLocaleDateString("fr-FR", { weekday:"long", day:"numeric", month:"long" });
+  function loop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    document.querySelector("#oHeure").innerHTML = heure;
+    hearts.forEach(h => {
+      h.progress += h.speed;
+      if (h.progress < .5)      h.alpha = h.progress * 2 * .7;
+      else if (h.progress < .85) h.alpha = .7;
+      else                       h.alpha = (1 - h.progress) / .15 * .7;
 
-    document.querySelector(".card").style.display = "none";
-    document.querySelector("#success").style.display = "block";
+      if (h.progress >= 1) {
+        Object.assign(h, newHeart());
+        h.progress = 0; h.alpha = 0;
+      }
+      drawHeart(h);
+    });
+
+    requestAnimationFrame(loop);
+  }
+
+  loop();
+})();
+
+/* ═══════════════════════════════════════════════
+   GOOGLE AUTH
+   ════════════════════════════════════════════════ */
+let googleToken = null;
+
+function signInGoogle() {
+  if (!window.google) {
+    showStatus("La librairie Google n'est pas encore chargée. Réessaie dans un instant.", "error");
+    return;
+  }
+
+  const client = google.accounts.oauth2.initTokenClient({
+    client_id: GOOGLE_CLIENT_ID,
+    scope: "https://www.googleapis.com/auth/calendar.events",
+    callback: (response) => {
+      if (response.error) {
+        showStatus("Connexion annulée ou refusée.", "error");
+        return;
+      }
+      googleToken = response.access_token;
+      showStatus("✓ Connecté — l'événement sera ajouté à ton agenda automatiquement.", "connected");
+      document.getElementById("btnGoogleLogin").textContent = "✓ Connecté à Google";
+      document.getElementById("btnGoogleLogin").style.opacity = ".6";
+      document.getElementById("btnGoogleLogin").disabled = true;
+    }
+  });
+
+  client.requestAccessToken();
+}
+
+function showStatus(msg, cls) {
+  const el = document.getElementById("googleStatus");
+  el.textContent = msg;
+  el.className = cls;
+}
+
+/* ═══════════════════════════════════════════════
+   BOUTON "NON" QUI S'ÉCHAPPE
+   ════════════════════════════════════════════════ */
+function dodge() {
+  const btn = document.getElementById("noBtn");
+  const w = btn.offsetWidth;
+  const h = btn.offsetHeight;
+  const maxX = window.innerWidth  - w - 20;
+  const maxY = window.innerHeight - h - 20;
+  const x = Math.max(20, Math.random() * maxX);
+  const y = Math.max(20, Math.random() * maxY);
+  btn.classList.add("btn-no-fixed");
+  btn.style.left = x + "px";
+  btn.style.top  = y + "px";
+}
+
+/* ═══════════════════════════════════════════════
+   CONFIRMER LA DATE
+   ════════════════════════════════════════════════ */
+async function confirmDate() {
+  const lieu    = document.getElementById("lieu").value.trim();
+  const date    = document.getElementById("date").value;
+  const heure   = document.getElementById("heure").value;
+  const description = document.getElementById("description").value.trim();
+
+  if (!lieu || !date || !heure) {
+    showToast("Il manque encore quelques informations 🙂");
+    return;
+  }
+
+  const dateFormatted = new Date(date).toLocaleDateString("fr-FR", {
+    weekday: "long", day: "numeric", month: "long"
+  });
+
+  // Affiche confirmation
+  document.getElementById("confirmRows").innerHTML = `
+    <div class="confirm-row"><span class="clabel">Lieu</span><span class="cvalue">${lieu}</span></div>
+    <div class="confirm-row"><span class="clabel">Date</span><span class="cvalue">${dateFormatted}</span></div>
+    <div class="confirm-row"><span class="clabel">Heure</span><span class="cvalue">${heure}</span></div>
+    ${description ? `<div class="confirm-row"><span class="clabel">Note</span><span class="cvalue">${description}</span></div>` : ""}
+  `;
+
+  document.getElementById("formCard").style.display  = "none";
+  document.getElementById("confirmCard").style.display = "block";
+
+  // Google Calendar
+  if (googleToken) {
+    await createCalendarEvent(lieu, date, heure, description);
+  } else {
+    document.getElementById("calendarResult").innerHTML = `
+      <p style="font-size:13px;color:var(--muted);text-align:center;">
+        Tu n'étais pas connecté·e à Google — l'événement n'a pas été ajouté à l'agenda.
+      </p>`;
+  }
+}
+
+async function createCalendarEvent(lieu, date, heure, description) {
+  const [year, month, day] = date.split("-").map(Number);
+  const [hour, min] = heure.split(":").map(Number);
+
+  const start = new Date(year, month - 1, day, hour, min);
+  const end   = new Date(start.getTime() + 2 * 60 * 60 * 1000); // +2h
+
+  const event = {
+    summary: `💑 Notre soirée — ${lieu}`,
+    description: description || "Un moment rien que pour nous deux.",
+    location: lieu,
+    start:  { dateTime: start.toISOString(), timeZone: "Europe/Paris" },
+    end:    { dateTime: end.toISOString(),   timeZone: "Europe/Paris" },
+    colorId: "4" // Flamingo
+  };
+
+  const res = await fetch("https://www.googleapis.com/calendar/v3/calendars/primary/events", {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${googleToken}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(event)
+  });
+
+  const result = document.getElementById("calendarResult");
+
+  if (res.ok) {
+    const data = await res.json();
+    result.innerHTML = `
+      <div style="background:rgba(111,207,151,.1);border:1px solid rgba(111,207,151,.25);border-radius:12px;padding:14px 16px;text-align:center;font-size:13px;color:var(--success);">
+        ✓ Événement ajouté à ton Google Agenda
+        ${data.htmlLink ? `<br><a href="${data.htmlLink}" target="_blank" style="color:var(--rose);text-decoration:none;margin-top:4px;display:inline-block;">Voir dans l'agenda →</a>` : ""}
+      </div>`;
+  } else {
+    result.innerHTML = `
+      <p style="font-size:13px;color:var(--rose);text-align:center;">
+        Erreur lors de l'ajout à l'agenda. Vérifie ton Client ID Google.
+      </p>`;
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   SOUVENIRS
+   ════════════════════════════════════════════════ */
+let memories = JSON.parse(localStorage.getItem("memories") || "[]");
+let pendingImages = []; // base64
+
+function saveMemories() {
+  localStorage.setItem("memories", JSON.stringify(memories));
+}
+
+function previewImages(event) {
+  const files = Array.from(event.target.files);
+  const preview = document.getElementById("dropPreview");
+  pendingImages = [];
+  preview.innerHTML = "";
+
+  files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      pendingImages.push(e.target.result);
+      const img = document.createElement("img");
+      img.src = e.target.result;
+      preview.appendChild(img);
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+// Drag & drop
+const dz = document.getElementById("dropZone");
+["dragenter","dragover"].forEach(e => dz.addEventListener(e, ev => { ev.preventDefault(); dz.classList.add("dragover"); }));
+["dragleave","drop"].forEach(e => dz.addEventListener(e, ev => { ev.preventDefault(); dz.classList.remove("dragover"); }));
+dz.addEventListener("drop", ev => {
+  const dt = ev.dataTransfer;
+  if (dt && dt.files.length) previewImages({ target: { files: dt.files } });
+});
+
+function addMemory() {
+  const title = document.getElementById("memTitle").value.trim();
+  const date  = document.getElementById("memDate").value;
+  const note  = document.getElementById("memNote").value.trim();
+
+  if (!title || !date) {
+    showToast("Un titre et une date sont nécessaires 🙂");
+    return;
+  }
+
+  const memory = {
+    id: Date.now(),
+    title,
+    date,
+    note,
+    images: [...pendingImages]
+  };
+
+  memories.unshift(memory);
+  saveMemories();
+  renderMemories();
+
+  // Reset
+  document.getElementById("memTitle").value = "";
+  document.getElementById("memDate").value  = "";
+  document.getElementById("memNote").value  = "";
+  document.getElementById("dropPreview").innerHTML = "";
+  document.getElementById("memoryFiles").value = "";
+  pendingImages = [];
+
+  showToast("Souvenir ajouté ✦");
+}
+
+function deleteMemory(id) {
+  memories = memories.filter(m => m.id !== id);
+  saveMemories();
+  renderMemories();
+}
+
+function renderMemories() {
+  const grid = document.getElementById("memoriesGrid");
+  if (!memories.length) {
+    grid.innerHTML = `<div class="memories-empty">Aucun souvenir encore — sois le premier à en ajouter&nbsp;✨</div>`;
+    return;
+  }
+
+  grid.innerHTML = memories.map(m => {
+    const imgHTML = m.images && m.images.length
+      ? `<img src="${m.images[0]}" alt="${m.title}" loading="lazy">`
+      : `<div style="height:120px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:36px;">📸</div>`;
+
+    const dateStr = m.date ? new Date(m.date).toLocaleDateString("fr-FR", { day:"numeric", month:"long", year:"numeric" }) : "";
+
+    return `
+      <div class="memory-card">
+        ${imgHTML}
+        <div class="mc-body">
+          <div class="mc-date">${dateStr}</div>
+          <div class="mc-title">${m.title}</div>
+          ${m.note ? `<div class="mc-note">${m.note}</div>` : ""}
+        </div>
+        <div class="mc-foot">
+          <span style="font-size:11px;color:var(--muted);">${m.images.length > 1 ? m.images.length + " photos" : ""}</span>
+          <button class="mc-delete" onclick="deleteMemory(${m.id})">Supprimer</button>
+        </div>
+      </div>`;
+  }).join("");
+}
+
+renderMemories();
+
+/* ═══════════════════════════════════════════════
+   TOAST
+   ════════════════════════════════════════════════ */
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove("show"), 3000);
 }
 </script>
 
